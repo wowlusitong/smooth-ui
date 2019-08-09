@@ -1,0 +1,54 @@
+---
+title: Button
+menu: Components
+---
+
+import { Button, Boxer, SCALES } from '../../../../packages/core-sc/src/index'
+import { LiveScope } from 'smooth-doc/components'
+
+<LiveScope scope={{ SCALES }} />
+
+# Button
+
+## Variants
+
+Set variants using `variant` prop.
+
+```jsx live
+<Boxer my={10}>
+  <Button>Default (primary)</Button>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="success">Success</Button>
+  <Button variant="danger">Danger</Button>
+  <Button variant="warning">Warning</Button>
+  <Button variant="info">Info</Button>
+  <Button variant="light">Light</Button>
+  <Button variant="dark">Dark</Button>
+  <Button>No variant</Button>
+</Boxer>
+```
+
+## Scales
+
+Set scales using `scale` prop like `"sm"`, `"md"` or `"lg"`.
+
+```jsx live
+<Boxer my={10}>
+  {SCALES.map(scale => (
+    <Button key={scale} scale={scale}>
+      {scale}
+    </Button>
+  ))}
+</Boxer>
+```
+
+## Disabled
+
+Disable using `disabled` prop.
+
+```jsx live
+<Button variant="primary" disabled>
+  Disabled
+</Button>
+```

@@ -37,4 +37,4 @@ const Wrapper = ({ children }) => (
   </ThemeProvider>
 )
 
-export default Wrapper
+export default ({ children }) => children

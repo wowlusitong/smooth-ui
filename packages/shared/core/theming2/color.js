@@ -1,5 +1,5 @@
-import { mix, parseToRgb } from 'polished'
-import { getColor as baseGetColor, themeGetter } from '@xstyled/system'
+import { mix, getContrast } from 'polished'
+import { th } from '@xstyled/system'
 
 const black = '#000'
 const white = '#fff'
@@ -26,16 +26,19 @@ const green = '#28a745'
 const teal = '#20c997'
 const cyan = '#17a2b8'
 
-const primary = baseGetColor('brick')
-const secondary = baseGetColor('gray600')
-const success = baseGetColor('green')
-const info = baseGetColor('cyan')
-const warning = baseGetColor('yellow')
-const danger = baseGetColor('red')
-const light = baseGetColor('gray100')
-const dark = baseGetColor('gray800')
+const primary = th.color('brick')
+const secondary = th.color('gray600')
+const success = th.color('green')
+const info = th.color('cyan')
+const warning = th.color('yellow')
+const danger = th.color('red')
+const light = th.color('gray100')
+const dark = th.color('gray800')
 
-const colors = {
+const yikTextDark = '#111'
+const yikTextLight = '#fff'
+
+export const colors = {
   black,
   white,
   gray100,
@@ -66,24 +69,27 @@ const colors = {
   danger,
   light,
   dark,
-}
 
-export const getColor = themeGetter({ key: 'colors', defaultVariants: colors })
+  // yik
+  yikTextDark,
+  yikTextLight,
+}
 
 export const colorInterval = 0.08
 
 export const colorLevel = (color, level) => p => {
-  const baseColor = level > 0 ? getColor('black')(p) : getColor('white')(p)
+  const baseColor = level > 0 ? th.color('black')(p) : th.color('white')(p)
   const absLevel = Math.abs(level)
   return mix(absLevel * colorInterval, baseColor, color)
 }
 
 export const yiqContrastedThreshold = 150
-export const yikTextDark = '#111'
-export const yikTextLight = '#fff'
 
-export const colorYik = color => {
-  const { red: r, green: g, blue: b } = parseToRgb(color)
-  const yik = (r * 299 + g * 587 + b * 114) / 1000
-  return yik >= yiqContrastedThreshold ? yikTextDark : yikTextLight
+export const colorYik = color => p => {
+  const darkValue = th.color('yikTextDark')(p)
+  const lightValue = th.color('yikTextLight')(p)
+  const colorValue = th.color(color)(p)
+  const darkContrast = getContrast(colorValue, darkValue)
+  const lightContrast = getContrast(colorValue, lightValue)
+  return darkContrast < lightContrast ? lightValue : darkValue
 }

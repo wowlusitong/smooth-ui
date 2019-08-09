@@ -1,16 +1,16 @@
 import { darken } from 'polished'
-import { css } from '../styled-engine'
-import { colorLevel, getColor } from './color'
+import { css } from '@xstyled/styled-components'
+import { th } from '@xstyled/system'
 
 const alertColorLevel = 6
 const alertBgLevel = -10
 const alertBorderLevel = -9
 
 export const alertVariant = variant => p => {
-  const variantColor = getColor(variant)(p)
-  const color = colorLevel(variantColor, alertColorLevel)(p)
-  const bgColor = colorLevel(variantColor, alertBgLevel)(p)
-  const borderColor = colorLevel(variantColor, alertBorderLevel)(p)
+  const variantColor = th.color(variant)(p)
+  const color = p.theme.colorLevel(variantColor, alertColorLevel)(p)
+  const bgColor = p.theme.colorLevel(variantColor, alertBgLevel)(p)
+  const borderColor = p.theme.colorLevel(variantColor, alertBorderLevel)(p)
   const hrColor = darken(0.05, color)
 
   return css`
