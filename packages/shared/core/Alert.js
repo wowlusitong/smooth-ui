@@ -1,48 +1,71 @@
 import React from 'react'
 import { darken } from 'polished'
+import merge from 'deepmerge'
 import styled, { css } from '@xstyled/styled-components'
 import { th, system } from '@xstyled/system'
 import { node, oneOf, string, oneOfType } from 'prop-desc'
 import { useProps, getSystemPropTypes } from './common'
-import { SCALES, VARIANTS } from './theming2/util'
+import { VARIANTS } from './theming2/util'
+import { fonts, colors, radii } from './theming2/index'
+import { colorLevel } from './utils/color'
 
 const InnerAlert = React.forwardRef(function InnerAlert(props, ref) {
   const { as: As = 'p', safeProps } = useProps(props)
   return <As ref={ref} role="alert" {...safeProps} />
 })
 
-const alertColorLevel = 6
-const alertBgLevel = -10
-const alertBorderLevel = -9
+const theme = {
+  fonts,
+  colors,
+  radii,
+  colorLevels: {
+    Alert: {
+      color: 6,
+      backgroundColor: -10,
+      borderColor: -9,
+    },
+  },
+  components: {
+    Alert: p => {
+      const baseColor =
+        p.variant === null ? null : th.color(p.variant || 'primary')(p)
+      const textColorLevel = th('colorLevels.Alert.color')(p)
+      const backgroundColorLevel = th('colorLevels.Alert.backgroundColor')(p)
+      const borderColorLevel = th('colorLevels.Alert.borderColor')(p)
+      const color = colorLevel(baseColor, textColorLevel)(p)
+      const backgroundColor = colorLevel(baseColor, backgroundColorLevel)(p)
+      const borderColor = colorLevel(baseColor, borderColorLevel)(p)
+      const hrColor = darken(0.05, color)
+      return css`
+        font-family: ${th.font('base')(p)};
+        position: relative;
+        padding: 12rpx 20rpx;
+        margin-bottom: 16rpx;
+        border: 1rpx;
+        border-color: transparent;
+        border-radius: ${th.radius('base')(p)};
+        color: ${color};
+        background-color: ${backgroundColor};
+        border-color: ${borderColor};
+
+        hr {
+          border-top-color: ${hrColor};
+        }
+
+        && {
+          ${system}
+        }
+      `
+    },
+  },
+}
 
 export const Alert = styled(InnerAlert)(p => {
-  const baseColor =
-    p.variant === null ? null : th.color(p.variant || 'primary')(p)
-  const color = p.theme.colorLevel(baseColor, alertColorLevel)(p)
-  const bgColor = p.theme.colorLevel(baseColor, alertBgLevel)(p)
-  const borderColor = p.theme.colorLevel(baseColor, alertBorderLevel)(p)
-  const hrColor = darken(0.05, color)
-  return css`
-    font-family: base;
-    position: relative;
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1rpx;
-    border-color: transparent;
-    border-radius: base;
-    color: ${color};
-    background-color: ${bgColor};
-    border-color: ${borderColor};
-
-    hr {
-      border-top-color: ${hrColor};
-    }
-
-    && {
-      ${system}
-    }
-  `
+  const props = merge({ theme }, p)
+  return props.theme.components.Alert(props)
 })
+
+Alert.theme = theme
 
 Alert.propTypes = {
   children: node,

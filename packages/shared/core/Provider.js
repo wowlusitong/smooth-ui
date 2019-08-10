@@ -3,6 +3,7 @@ import { ThemeProvider } from '@xstyled/styled-components'
 import * as theme from './theming2/index'
 
 export function Provider({ children }) {
+  return children
   return (
     <ThemeProvider theme={theme}>
       <>{children}</>

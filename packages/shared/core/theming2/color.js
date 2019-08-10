@@ -1,4 +1,3 @@
-import { mix, getContrast } from 'polished'
 import { th } from '@xstyled/system'
 
 const black = '#000'
@@ -35,9 +34,6 @@ const danger = th.color('red')
 const light = th.color('gray100')
 const dark = th.color('gray800')
 
-const yikTextDark = '#111'
-const yikTextLight = '#fff'
-
 export const colors = {
   black,
   white,
@@ -69,27 +65,4 @@ export const colors = {
   danger,
   light,
   dark,
-
-  // yik
-  yikTextDark,
-  yikTextLight,
-}
-
-export const colorInterval = 0.08
-
-export const colorLevel = (color, level) => p => {
-  const baseColor = level > 0 ? th.color('black')(p) : th.color('white')(p)
-  const absLevel = Math.abs(level)
-  return mix(absLevel * colorInterval, baseColor, color)
-}
-
-export const yiqContrastedThreshold = 150
-
-export const colorYik = color => p => {
-  const darkValue = th.color('yikTextDark')(p)
-  const lightValue = th.color('yikTextLight')(p)
-  const colorValue = th.color(color)(p)
-  const darkContrast = getContrast(colorValue, darkValue)
-  const lightContrast = getContrast(colorValue, lightValue)
-  return darkContrast < lightContrast ? lightValue : darkValue
 }

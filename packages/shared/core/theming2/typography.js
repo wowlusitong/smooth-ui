@@ -25,7 +25,6 @@ export const fontWeights = {
 export const lineHeights = SCALES.reduce(
   (obj, scale) => {
     obj[scale] = 1.5
-    obj.button[scale] = th.lineHeight(scale)
     return obj
   },
   { button: {} },
