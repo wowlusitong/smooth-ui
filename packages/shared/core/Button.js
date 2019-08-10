@@ -2,13 +2,15 @@ import React from 'react'
 import { darken } from 'polished'
 import { Button as ReakitButton } from 'reakit/Button'
 import styled, { css } from '@xstyled/styled-components'
-import { th } from '@xstyled/system'
-import { useProps } from './common'
+import { th, system } from '@xstyled/system'
+import { node, bool, oneOf, string, oneOfType } from 'prop-desc'
+import { SCALES, VARIANTS } from './theming2/util'
+import { useProps, getSystemPropTypes } from './common'
 
-function InnerButton(props) {
+const InnerButton = React.forwardRef(function InnerButton(props, ref) {
   const { as, safeProps } = useProps(props)
-  return <ReakitButton as={as} {...safeProps} />
-}
+  return <ReakitButton ref={ref} as={as} {...safeProps} />
+})
 
 export const Button = styled(InnerButton)(p => {
   const scale = p.scale || 'base'
@@ -49,7 +51,17 @@ export const Button = styled(InnerButton)(p => {
           background-color: ${darken(0.05, baseColor)};
         }
       `}
+
+    && {
+      ${system}
+    }
   `
 })
 
-Button.propTypes = {}
+Button.propTypes = {
+  children: node,
+  disabled: bool,
+  scale: oneOf(SCALES),
+  variant: oneOfType([oneOf(VARIANTS), string]).defaultTo('primary'),
+  ...getSystemPropTypes(system),
+}

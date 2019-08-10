@@ -1,3 +1,4 @@
+import { oneOfType, number, string, object } from 'prop-desc'
 import { omit } from './utils/index'
 
 const systemProps = [
@@ -102,4 +103,14 @@ const omittedProps = ['as', 'forwardedAs', 'variant', ...systemProps]
 export function useProps(props) {
   const as = props.as || props.forwardedAs || undefined
   return { as, safeProps: omit(props, omittedProps) }
+}
+
+export function getSystemPropTypes(system) {
+  if (!system) return {}
+  return system.meta.props.reduce((obj, prop) => {
+    obj[prop] = oneOfType([number, string, object]).desc(
+      'See <a href="https://www.smooth-code.com/open-source/xstyled/docs/system-props/">xstyled documentation</a>',
+    )
+    return obj
+  }, {})
 }

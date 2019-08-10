@@ -14188,6 +14188,11 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
+prop-desc@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/prop-desc/-/prop-desc-1.0.0.tgz#215484ca17a282b16f4656fbcb71daf910c4a347"
+  integrity sha512-UoPCaSK2kDImDA9v45qGqLK9xURCyWtdPpeZkjJpgnlcf/y8rD9W7UnXFRFqLFxbsoO6TJ65CsYrZucTDKs/iw==
+
 prop-types-exact@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/prop-types-exact/-/prop-types-exact-1.2.0.tgz#825d6be46094663848237e3925a98c6e944e9869"

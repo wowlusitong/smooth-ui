@@ -1,5 +1,16 @@
 import { modularScale } from 'polished'
 
+export const VARIANTS = [
+  'primary',
+  'secondary',
+  'success',
+  'info',
+  'warning',
+  'danger',
+  'light',
+  'dark',
+]
+
 export const SCALES = ['xs', 'sm', 'base', 'lg', 'xl']
 
 export function scale(base, baseGetter, ratio) {

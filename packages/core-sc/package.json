@@ -28,6 +28,7 @@
     "@smooth-ui/system": "^10.1.0",
     "polished": "^3.4.1",
     "popper.js": "^1.15.0",
+    "prop-desc": "^1.0.0",
     "prop-types": "^15.7.2",
     "react-flatten-children": "^1.0.0",
     "react-focus-lock": "^2.0.5",
